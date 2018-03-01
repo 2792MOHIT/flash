@@ -21,23 +21,8 @@ public class LoginDbController {
 	private LoginDbService loginDbService;
 	
 	@GetMapping("/login")
-	public List<LoginDb> getAllLoginUser(){
+	public LoginDb getAllLoginUser(){
 		return loginDbService.getAllLoginUser();
-	}
-	
-	@PostMapping("/login/add-user")
-	public void addLoginUser(@RequestBody LoginDb loginDb) {
-		loginDbService.addLoginUser(loginDb);
-	}
-	
-	@GetMapping("/login/{id}")
-	public LoginDb getLoginUser(@PathVariable String id) {
-		return loginDbService.getLoginUser(id);
-	}
-	
-	@DeleteMapping("/login/{id}")
-	public void deleteLoginUser(@PathVariable String id) {
-		loginDbService.deleteLoginUser(id);
 	}
 	
 	

@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,11 @@ import javax.persistence.Table;
  * 
  * @category employee_info entity in database
  */
+
+enum Gender {
+	Male, Female
+};
+
 @Entity
 @Table(name = "employee_info")
 public class EmployeeInfo {
@@ -34,7 +41,8 @@ public class EmployeeInfo {
 	private String lastName;
 
 	@Column(name = "gender", nullable = false)
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 
 	@Column(name = "dob", nullable = false)
 	private Date dob;
@@ -42,24 +50,26 @@ public class EmployeeInfo {
 	@Column(name = "email_id", nullable = false)
 	private String emailId;
 
-	@Column(name = "designation", nullable = false)
-	private String designation;
+	@OneToOne(targetEntity = DesigSal.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "designation", referencedColumnName = "designation")
+	private DesigSal designation;
 
 	@Column(name = "address", nullable = false)
 	private String address;
 
 	@Column(name = "phone", nullable = false)
-	private Long phone;
+	private String phone;
 
-	@Column(name = "hire_date", nullable = false)
-	private Date hireDate;
+	@Column(name = "doj", nullable = false)
+	private Date doj;
 
-	@Column(name = "report_manager")
-	private Long reportManager;
+	@OneToOne(targetEntity = EmployeeInfo.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "reporting_manager", referencedColumnName = "emp_id")
+	private EmployeeInfo reportingManager;
 
 	@OneToOne(targetEntity = LoginDb.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_name", referencedColumnName = "user_name")
-	private LoginDb loginDb;
+	private LoginDb userName;
 
 	/**
 	 * @return the empID
@@ -109,7 +119,7 @@ public class EmployeeInfo {
 	/**
 	 * @return the gender
 	 */
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
@@ -117,7 +127,7 @@ public class EmployeeInfo {
 	 * @param gender
 	 *            the gender to set
 	 */
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
@@ -154,7 +164,7 @@ public class EmployeeInfo {
 	/**
 	 * @return the designation
 	 */
-	public String getDesignation() {
+	public DesigSal getDesignation() {
 		return designation;
 	}
 
@@ -162,7 +172,7 @@ public class EmployeeInfo {
 	 * @param designation
 	 *            the designation to set
 	 */
-	public void setDesignation(String designation) {
+	public void setDesignation(DesigSal designation) {
 		this.designation = designation;
 	}
 
@@ -184,7 +194,7 @@ public class EmployeeInfo {
 	/**
 	 * @return the phone
 	 */
-	public Long getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
@@ -192,45 +202,45 @@ public class EmployeeInfo {
 	 * @param phone
 	 *            the phone to set
 	 */
-	public void setPhone(Long phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
 	/**
-	 * @return the hireDate
+	 * @return the doj
 	 */
-	public Date getHireDate() {
-		return hireDate;
+	public Date getDoj() {
+		return doj;
 	}
 
 	/**
-	 * @param hireDate
-	 *            the hireDate to set
+	 * @param doj
+	 *            the doj to set
 	 */
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
+	public void setDoj(Date doj) {
+		this.doj = doj;
 	}
 
 	/**
-	 * @return the reportManager
+	 * @return the reportingManager
 	 */
-	public Long getReportManager() {
-		return reportManager;
+	public EmployeeInfo getReportingManager() {
+		return reportingManager;
 	}
 
 	/**
-	 * @param reportManager
-	 *            the reportManager to set
+	 * @param reportingManager
+	 *            the reportingManager to set
 	 */
-	public void setReportManager(Long reportManager) {
-		this.reportManager = reportManager;
+	public void setReportingManager(EmployeeInfo reportingManager) {
+		this.reportingManager = reportingManager;
 	}
 
 	/**
 	 * @return the loginDb
 	 */
 	public LoginDb getLoginDb() {
-		return loginDb;
+		return userName;
 	}
 
 	/**
@@ -238,6 +248,7 @@ public class EmployeeInfo {
 	 *            the loginDb to set
 	 */
 	public void setLoginDb(LoginDb loginDb) {
-		this.loginDb = loginDb;
+		this.userName = loginDb;
 	}
+
 }
