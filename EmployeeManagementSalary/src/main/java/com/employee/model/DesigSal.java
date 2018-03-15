@@ -1,11 +1,17 @@
 package com.employee.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.employee.enums.Designation;
 
 /**
  * @author mohit arya
@@ -13,10 +19,6 @@ import javax.persistence.Table;
  * 
  * @category desig_sal entity in database
  */
-
-enum Designation {
-	Hr, Developer, Tester, ProjectManager, Trainee
-};
 
 @Entity
 @Table(name = "desig_sal")
@@ -27,14 +29,21 @@ public class DesigSal {
 	@Enumerated(EnumType.STRING)
 	private Designation designation;
 
-	@Column(name = "basic_salary", nullable = false, updatable = true )
+	@Column(name = "basic_salary", nullable = false, updatable = true)
 	private int basicSal;
+
+	@OneToMany(mappedBy = "designation")
+	private List<EmployeeInfo> emp;
 
 	/**
 	 * @return the designation
 	 */
 	public Designation getDesignation() {
 		return designation;
+	}
+
+	public DesigSal() {
+
 	}
 
 	/**
@@ -58,6 +67,21 @@ public class DesigSal {
 	 */
 	public void setBasicSal(int basicSal) {
 		this.basicSal = basicSal;
+	}
+
+	/**
+	 * @return the emp
+	 */
+	public List<EmployeeInfo> getEmp() {
+		return emp;
+	}
+
+	/**
+	 * @param emp
+	 *            the emp to set
+	 */
+	public void setEmp(List<EmployeeInfo> emp) {
+		this.emp = emp;
 	}
 
 }

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * main application initilizer
+ * Main application initilizer
  * 
  * @author Mohit Arya
  * @version 1.0

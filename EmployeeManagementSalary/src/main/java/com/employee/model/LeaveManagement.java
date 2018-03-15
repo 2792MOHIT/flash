@@ -1,12 +1,15 @@
 package com.employee.model;
 
-import javax.persistence.CascadeType;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * 
@@ -16,14 +19,20 @@ import javax.persistence.Table;
  * @version 1.0
  * 
  */
+
 @Entity
 @Table(name="leave_management")
-public class LeaveManagement {
+public class LeaveManagement implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id	
-	@OneToOne(targetEntity=EmployeeInfo.class,cascade=CascadeType.ALL)
-	@JoinColumn(name = "emp_id", referencedColumnName="empid")
-	private EmployeeInfo emp;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="leave_id")
+	private int leaveId;
 	
 	@Column(name="sick_leave")
 	private int sickleave;
@@ -46,21 +55,25 @@ public class LeaveManagement {
 	@Column(name="marriage")
 	private int marriage;
 	
-	@Column(name="paid leave")
+	@Column(name="paid_leave")
 	private int paidLeave;
-
-	/**
-	 * @return the emp
-	 */
-	public EmployeeInfo getEmp() {
-		return emp;
+	
+	public LeaveManagement() {
+		
 	}
 
 	/**
-	 * @param emp the emp to set
+	 * @return the leaveId
 	 */
-	public void setEmp(EmployeeInfo emp) {
-		this.emp = emp;
+	public int getLeaveId() {
+		return leaveId;
+	}
+
+	/**
+	 * @param leaveId the leaveId to set
+	 */
+	public void setLeaveId(int leaveId) {
+		this.leaveId = leaveId;
 	}
 
 	/**
@@ -174,6 +187,8 @@ public class LeaveManagement {
 	public void setPaidLeave(int paidLeave) {
 		this.paidLeave = paidLeave;
 	}
+
+	
 	
 	
 

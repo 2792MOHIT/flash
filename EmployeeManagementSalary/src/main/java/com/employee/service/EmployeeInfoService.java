@@ -1,14 +1,17 @@
 package com.employee.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.employee.model.DesigSal;
 import com.employee.model.EmployeeInfo;
+import com.employee.repository.DesigSalRepository;
 import com.employee.repository.EmployeeInfoRepository;
+import com.employee.wrapper.EmployeeInfoDto;
 
 /**
  * 
@@ -21,21 +24,82 @@ import com.employee.repository.EmployeeInfoRepository;
 @Service
 public class EmployeeInfoService {
 
-	
-	@Autowired
 	private EmployeeInfoRepository employeeInfoRepository;
+	private DesigSalRepository desigSalRepository;
 
-	public void addEmployeeInfo(EmployeeInfo employeeInfo) {
+	/**
+	 * @param employeeInfoRepository
+	 * @param desigSalRepository
+	 */
+	@Autowired
+	public EmployeeInfoService(EmployeeInfoRepository employeeInfoRepository, DesigSalRepository desigSalRepository) {
+		this.employeeInfoRepository = employeeInfoRepository;
+		this.desigSalRepository = desigSalRepository;
+	}
+
+	public void addEmployeeInfo(EmployeeInfoDto employeeInfoDto) throws Exception {
+		EmployeeInfo employeeInfo = getEmployeeInfo(employeeInfoDto);
+		DesigSal desigSal = desigSalRepository.findOne(employeeInfo.getDesignation().getDesignation());
+		if (desigSal == null) {
+			throw new Exception("Designation Not Given");
+
+		}
+		employeeInfo.setDesignation(desigSal);
+
 		employeeInfoRepository.save(employeeInfo);
+	}
+
+	private EmployeeInfo getEmployeeInfo(EmployeeInfoDto employeeInfoDto) {
+		EmployeeInfo employeeInfo = new EmployeeInfo();
+		employeeInfo.setEmpID(employeeInfoDto.getEmpID());
+		employeeInfo.setFirstName(employeeInfoDto.getFirstName());
+		employeeInfo.setLastName(employeeInfoDto.getLastName());
+		employeeInfo.setGender(employeeInfoDto.getGender());
+		employeeInfo.setDob(employeeInfoDto.getDob());
+		employeeInfo.setEmailId(employeeInfoDto.getEmailId());
+//		employeeInfo.setDesignation(employeeInfoDto.getDesignation());
+		employeeInfo.setAddress(employeeInfoDto.getAddress());
+		employeeInfo.setPhone(employeeInfoDto.getPhone());
+		employeeInfo.setDoj(employeeInfoDto.getDoj());
+		try {
+			employeeInfo.setReportingManager(employeeInfoRepository.findOne(employeeInfoDto.getRepId()));
+		} catch (NullPointerException e) {
+		}
+		employeeInfo.setUserId(employeeInfoDto.getUserId());
+		employeeInfo.setLeaveId(employeeInfoDto.getLeaveId());
+		return employeeInfo;
+	}
+
+	private EmployeeInfoDto getEmployeeInfoDto(EmployeeInfo employeeInfo) {
+		EmployeeInfoDto employeeInfoDto = new EmployeeInfoDto();
+		employeeInfoDto.setEmpID(employeeInfo.getEmpID());
+		employeeInfoDto.setFirstName(employeeInfo.getFirstName());
+		employeeInfoDto.setLastName(employeeInfo.getLastName());
+		employeeInfoDto.setGender(employeeInfo.getGender());
+		employeeInfoDto.setDob(employeeInfo.getDob());
+		employeeInfoDto.setEmailId(employeeInfo.getEmailId());
+//		employeeInfoDto.setDesignation(employeeInfo.getDesignation());
+		employeeInfoDto.setAddress(employeeInfo.getAddress());
+		employeeInfoDto.setPhone(employeeInfo.getPhone());
+		employeeInfoDto.setDoj(employeeInfo.getDoj());
+//		if (employeeInfo.getReportingManager() != null) {
+//			employeeInfoDto.setRepId(employeeInfo.getReportingManager().getEmpID());
+//		}
+
+		employeeInfoDto.setUserId(employeeInfo.getUserId());
+		employeeInfoDto.setLeaveId(employeeInfo.getLeaveId());
+		return employeeInfoDto;
 	}
 
 	/**
 	 * @return all employee info
 	 */
-	public List<EmployeeInfo> getAllEmployeeInfo() {
-		List<EmployeeInfo> employeeInfoList = new ArrayList<>();
-		employeeInfoRepository.findAll().forEach(employeeInfoList::add);
-		return employeeInfoList;
+	public List<EmployeeInfoDto> getAllEmployeeInfo() {
+//		List<EmployeeInfoDto> employeeInfoDtoList = employeeInfoRepository.findAll().stream()
+//				.map(employeeInfo -> getEmployeeInfoDto(employeeInfo)).collect(Collectors.toList());
+//		System.out.println("employeeInfoDtoList is : " + employeeInfoDtoList);
+		return employeeInfoRepository.findAll().stream().map(dt->new EmployeeInfoDto(dt)).collect(Collectors.toList());
+		
 	}
 
 	/**
@@ -49,24 +113,24 @@ public class EmployeeInfoService {
 	/**
 	 * @param id
 	 * 
-	 * delete the user with the matching id
+	 *            delete the user with the matching id
 	 */
 	public void deleteEmployeeInfo(Long id) {
 		employeeInfoRepository.delete(id);
 	}
-	
+
 	/**
 	 * @param id
 	 * @param employeeInfo
 	 * @return updated employee info
 	 */
-	public ResponseEntity<EmployeeInfo> updateEmployeeInfo(Long id , EmployeeInfo employeeInfo) {
+	public ResponseEntity<EmployeeInfo> updateEmployeeInfo(Long id, EmployeeInfo employeeInfo) {
 		EmployeeInfo employee = employeeInfoRepository.findOne(id);
-		
+
 		if (employee == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		employee.setFirstName(employee.getFirstName());
 		employee.setLastName(employee.getLastName());
 		employee.setAddress(employee.getAddress());
@@ -75,12 +139,12 @@ public class EmployeeInfoService {
 		employee.setDoj(employee.getDoj());
 		employee.setEmailId(employee.getEmailId());
 		employee.setGender(employee.getGender());
-		employee.setLoginDb(employee.getLoginDb());
+		employee.setUserId(employee.getUserId());
 		employee.setPhone(employee.getPhone());
-		employee.setReportingManager(employee.getReportingManager());
-		
+//		employee.setReportingManager(employee.getReportingManager());
+		employee.setLeaveId(employee.getLeaveId());
 		EmployeeInfo update = employeeInfoRepository.save(employee);
-		
+
 		return ResponseEntity.ok(update);
 	}
 }

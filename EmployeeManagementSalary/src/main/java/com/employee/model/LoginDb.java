@@ -7,8 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author mohit arya
@@ -24,6 +30,15 @@ enum Role{Admin,Hr,Employee};
 public class LoginDb {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="user_id")
+	private int userId;
+	
+//	@OneToOne(mappedBy="userId")
+//	@JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
+//	private EmployeeInfo empId;
+	
+	
 	@Column(name = "user_name", nullable = false, updatable = false)
 	private String userName;
 
@@ -33,7 +48,8 @@ public class LoginDb {
 	@Column(name = "role",nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
-
+	
+	
 	/**
 	 * @return the userName
 	 */
@@ -75,6 +91,34 @@ public class LoginDb {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the empId
+	 */
+//	public EmployeeInfo getEmpId() {
+//		return empId;
+//	}
+//
+//	/**
+//	 * @param empId the empId to set
+//	 */
+//	public void setEmpId(EmployeeInfo empId) {
+//		this.empId = empId;
+//	}
 
 	
 

@@ -1,82 +1,83 @@
-package com.employee.model;
+package com.employee.wrapper;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import com.employee.enums.Gender;
+import com.employee.model.DesigSal;
+import com.employee.model.EmployeeInfo;
+import com.employee.model.LeaveManagement;
+import com.employee.model.LoginDb;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/**
- * @author mohit arya
- * @version 1.0
- * 
- * @category employee_info entity in database
- */
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class EmployeeInfoDto {
 
-@Entity
-@Table(name = "employee_info")
-public class EmployeeInfo {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "emp_id")
 	private long empID;
-
-	@Column(name = "first_name", nullable = false)
 	private String firstName;
-
-	@Column(name = "last_name", nullable = false)
 	private String lastName;
-
-	@Column(name = "gender", nullable = false)
-	@Enumerated(EnumType.STRING)
 	private Gender gender;
-
-	@Column(name = "dob", nullable = false)
 	private Date dob;
-
-	@Column(name = "email_id", nullable = false)
 	private String emailId;
-
-	@ManyToOne(targetEntity = DesigSal.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "designation", referencedColumnName = "designation", nullable = true)
-	private DesigSal designation;
-
-	@Column(name = "address", nullable = false)
+	private String designation;
 	private String address;
-
-	@Column(name = "phone", nullable = false)
 	private String phone;
-
-	@Column(name = "doj", nullable = false)
 	private Date doj;
-
-	@OneToOne(targetEntity = EmployeeInfo.class, cascade = { CascadeType.MERGE })
-	@JoinColumn(name = "reporting_manager", referencedColumnName = "emp_id")
-	private EmployeeInfo reportingManager;
-
-	@OneToOne(targetEntity = LoginDb.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	private long repId;
 	private LoginDb userId;
-
-	@OneToOne(targetEntity = LeaveManagement.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "leave_id", referencedColumnName = "leave_id")
 	private LeaveManagement leaveId;
 
-	public EmployeeInfo() {
+	public EmployeeInfoDto() {
+		// TODO Auto-generated constructor stub
+	}
 
+	/**
+	 * @param empID
+	 * @param firstName
+	 * @param lastName
+	 * @param gender
+	 * @param dob
+	 * @param emailId
+	 * @param designation
+	 * @param address
+	 * @param phone
+	 * @param doj
+	 * @param repId
+	 * @param userId
+	 * @param leaveId
+	 */
+	public EmployeeInfoDto(EmployeeInfo employeeInfo) {
+		this.empID = employeeInfo.getEmpID();
+		this.firstName = employeeInfo.getFirstName();
+		this.lastName = employeeInfo.getLastName();
+		this.gender = employeeInfo.getGender();
+		this.dob = employeeInfo.getDob();
+		this.emailId = employeeInfo.getEmailId();
+		if (employeeInfo.getDesignation() != null && employeeInfo.getDesignation().getDesignation() != null) {
+			this.designation = employeeInfo.getDesignation().getDesignation().toString();
+		}
+		this.address = employeeInfo.getAddress();
+		this.phone = employeeInfo.getPhone();
+		this.doj = employeeInfo.getDoj();
+		if (employeeInfo.getReportingManager() != null) {
+			this.repId = employeeInfo.getReportingManager().getEmpID();
+		}
+		this.userId = employeeInfo.getUserId();
+		this.leaveId = employeeInfo.getLeaveId();
+	}
+
+	/**
+	 * @return the empID
+	 */
+	public long getEmpID() {
+		return empID;
+	}
+
+	/**
+	 * @param empID
+	 *            the empID to set
+	 */
+	public void setEmpID(long empID) {
+		this.empID = empID;
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class EmployeeInfo {
 	/**
 	 * @return the designation
 	 */
-	public DesigSal getDesignation() {
+	public String getDesignation() {
 		return designation;
 	}
 
@@ -165,7 +166,7 @@ public class EmployeeInfo {
 	 * @param designation
 	 *            the designation to set
 	 */
-	public void setDesignation(DesigSal designation) {
+	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
 
@@ -215,33 +216,18 @@ public class EmployeeInfo {
 	}
 
 	/**
-	 * @return the reportingManager
+	 * @return the repId
 	 */
-	public EmployeeInfo getReportingManager() {
-		return reportingManager;
+	public long getRepId() {
+		return repId;
 	}
 
 	/**
-	 * @param reportingManager
-	 *            the reportingManager to set
+	 * @param repId
+	 *            the repId to set
 	 */
-	public void setReportingManager(EmployeeInfo reportingManager) {
-		this.reportingManager = reportingManager;
-	}
-
-	/**
-	 * @return the empID
-	 */
-	public long getEmpID() {
-		return empID;
-	}
-
-	/**
-	 * @param empID
-	 *            the empID to set
-	 */
-	public void setEmpID(long empID) {
-		this.empID = empID;
+	public void setRepId(long repId) {
+		this.repId = repId;
 	}
 
 	/**
@@ -281,9 +267,10 @@ public class EmployeeInfo {
 	 */
 	@Override
 	public String toString() {
-		return "EmployeeInfo [empID=" + empID + ", firstName=" + firstName + ", lastName=" + lastName + ", gender="
+		return "EmployeeInfoDto [empID=" + empID + ", firstName=" + firstName + ", lastName=" + lastName + ", gender="
 				+ gender + ", dob=" + dob + ", emailId=" + emailId + ", designation=" + designation + ", address="
-				+ address + ", phone=" + phone + ", doj=" + doj + ", userId=" + userId + ", leaveId=" + leaveId + "]";
+				+ address + ", phone=" + phone + ", doj=" + doj + ", repId=" + repId + ", userId=" + userId
+				+ ", leaveId=" + leaveId + "]";
 	}
 
 }
