@@ -42,7 +42,6 @@ public class EmployeeInfoService {
 		DesigSal desigSal = desigSalRepository.findOne(employeeInfo.getDesignation().getDesignation());
 		if (desigSal == null) {
 			throw new Exception("Designation Not Given");
-
 		}
 		employeeInfo.setDesignation(desigSal);
 
@@ -61,10 +60,12 @@ public class EmployeeInfoService {
 		employeeInfo.setAddress(employeeInfoDto.getAddress());
 		employeeInfo.setPhone(employeeInfoDto.getPhone());
 		employeeInfo.setDoj(employeeInfoDto.getDoj());
+		
 		try {
 			employeeInfo.setReportingManager(employeeInfoRepository.findOne(employeeInfoDto.getRepId()));
 		} catch (NullPointerException e) {
 		}
+		
 		employeeInfo.setUserId(employeeInfoDto.getUserId());
 		employeeInfo.setLeaveId(employeeInfoDto.getLeaveId());
 		return employeeInfo;

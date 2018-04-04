@@ -3,7 +3,6 @@ package com.employee.wrapper;
 import java.util.Date;
 
 import com.employee.enums.Gender;
-import com.employee.model.DesigSal;
 import com.employee.model.EmployeeInfo;
 import com.employee.model.LeaveManagement;
 import com.employee.model.LoginDb;

@@ -63,7 +63,7 @@ public class EmployeeInfo {
 	@Column(name = "doj", nullable = false)
 	private Date doj;
 
-	@OneToOne(targetEntity = EmployeeInfo.class, cascade = { CascadeType.MERGE })
+	@OneToOne(targetEntity = EmployeeInfo.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "reporting_manager", referencedColumnName = "emp_id")
 	private EmployeeInfo reportingManager;
 
