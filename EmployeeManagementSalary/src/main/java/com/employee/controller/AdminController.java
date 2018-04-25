@@ -27,14 +27,14 @@ public class AdminController {
 	public void addEmployeeInfo(@RequestBody EmployeeInfoDto employeeInfoDto) throws Exception {
 		employeeInfoService.addEmployeeInfo(employeeInfoDto);
 	}
-	
-	//getting all the employees
+
+	// getting all the employees
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public List<EmployeeInfoDto> getAllEmployees() {
 		return employeeInfoService.getAllEmployeeInfo();
 	}
-	
-	//getting the particular employee
+
+	// getting the particular employee
 	@GetMapping("/get/{id}")
 	public EmployeeInfo getEmployee(@PathVariable(name = "id") long id) {
 		return employeeInfoService.getEmployeeInfo(id);

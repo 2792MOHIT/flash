@@ -56,16 +56,16 @@ public class EmployeeInfoService {
 		employeeInfo.setGender(employeeInfoDto.getGender());
 		employeeInfo.setDob(employeeInfoDto.getDob());
 		employeeInfo.setEmailId(employeeInfoDto.getEmailId());
-//		employeeInfo.setDesignation(employeeInfoDto.getDesignation());
+		// employeeInfo.setDesignation(employeeInfoDto.getDesignation());
 		employeeInfo.setAddress(employeeInfoDto.getAddress());
 		employeeInfo.setPhone(employeeInfoDto.getPhone());
 		employeeInfo.setDoj(employeeInfoDto.getDoj());
-		
+
 		try {
 			employeeInfo.setReportingManager(employeeInfoRepository.findOne(employeeInfoDto.getRepId()));
 		} catch (NullPointerException e) {
 		}
-		
+
 		employeeInfo.setUserId(employeeInfoDto.getUserId());
 		employeeInfo.setLeaveId(employeeInfoDto.getLeaveId());
 		return employeeInfo;
@@ -79,13 +79,13 @@ public class EmployeeInfoService {
 		employeeInfoDto.setGender(employeeInfo.getGender());
 		employeeInfoDto.setDob(employeeInfo.getDob());
 		employeeInfoDto.setEmailId(employeeInfo.getEmailId());
-//		employeeInfoDto.setDesignation(employeeInfo.getDesignation());
+		// employeeInfoDto.setDesignation(employeeInfo.getDesignation());
 		employeeInfoDto.setAddress(employeeInfo.getAddress());
 		employeeInfoDto.setPhone(employeeInfo.getPhone());
 		employeeInfoDto.setDoj(employeeInfo.getDoj());
-//		if (employeeInfo.getReportingManager() != null) {
-//			employeeInfoDto.setRepId(employeeInfo.getReportingManager().getEmpID());
-//		}
+		// if (employeeInfo.getReportingManager() != null) {
+		// employeeInfoDto.setRepId(employeeInfo.getReportingManager().getEmpID());
+		// }
 
 		employeeInfoDto.setUserId(employeeInfo.getUserId());
 		employeeInfoDto.setLeaveId(employeeInfo.getLeaveId());
@@ -96,11 +96,14 @@ public class EmployeeInfoService {
 	 * @return all employee info
 	 */
 	public List<EmployeeInfoDto> getAllEmployeeInfo() {
-//		List<EmployeeInfoDto> employeeInfoDtoList = employeeInfoRepository.findAll().stream()
-//				.map(employeeInfo -> getEmployeeInfoDto(employeeInfo)).collect(Collectors.toList());
-//		System.out.println("employeeInfoDtoList is : " + employeeInfoDtoList);
-		return employeeInfoRepository.findAll().stream().map(dt->new EmployeeInfoDto(dt)).collect(Collectors.toList());
-		
+		// List<EmployeeInfoDto> employeeInfoDtoList =
+		// employeeInfoRepository.findAll().stream()
+		// .map(employeeInfo ->
+		// getEmployeeInfoDto(employeeInfo)).collect(Collectors.toList());
+		// System.out.println("employeeInfoDtoList is : " + employeeInfoDtoList);
+		return employeeInfoRepository.findAll().stream().map(dt -> new EmployeeInfoDto(dt))
+				.collect(Collectors.toList());
+
 	}
 
 	/**
@@ -142,7 +145,7 @@ public class EmployeeInfoService {
 		employee.setGender(employee.getGender());
 		employee.setUserId(employee.getUserId());
 		employee.setPhone(employee.getPhone());
-//		employee.setReportingManager(employee.getReportingManager());
+		employee.setReportingManager(employee.getReportingManager());
 		employee.setLeaveId(employee.getLeaveId());
 		EmployeeInfo update = employeeInfoRepository.save(employee);
 

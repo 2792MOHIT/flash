@@ -1,7 +1,6 @@
 package com.employee.model;
 
-
-
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author mohit arya
@@ -23,33 +18,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @category login entity in database
  */
 
-enum Role{Admin,Hr,Employee};
+enum Role {
+	Admin, Hr, Employee
+};
 
 @Entity
 @Table(name = "login_table")
-public class LoginDb {
-	
+public class LoginDb implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id")
 	private int userId;
-	
-//	@OneToOne(mappedBy="userId")
-//	@JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
-//	private EmployeeInfo empId;
-	
-	
+
+	// @OneToOne(mappedBy="userId")
+	// @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
+	// private EmployeeInfo empId;
+
 	@Column(name = "user_name", nullable = false, updatable = false)
 	private String userName;
 
-	@Column(name = "password",nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "role",nullable = false)
+	@Column(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
-	
+
 	/**
 	 * @return the userName
 	 */
@@ -58,7 +54,8 @@ public class LoginDb {
 	}
 
 	/**
-	 * @param userName the userName to set
+	 * @param userName
+	 *            the userName to set
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -72,7 +69,8 @@ public class LoginDb {
 	}
 
 	/**
-	 * @param password the password to set
+	 * @param password
+	 *            the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -86,7 +84,8 @@ public class LoginDb {
 	}
 
 	/**
-	 * @param role the role to set
+	 * @param role
+	 *            the role to set
 	 */
 	public void setRole(Role role) {
 		this.role = role;
@@ -100,7 +99,8 @@ public class LoginDb {
 	}
 
 	/**
-	 * @param userId the userId to set
+	 * @param userId
+	 *            the userId to set
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
@@ -109,17 +109,15 @@ public class LoginDb {
 	/**
 	 * @return the empId
 	 */
-//	public EmployeeInfo getEmpId() {
-//		return empId;
-//	}
-//
-//	/**
-//	 * @param empId the empId to set
-//	 */
-//	public void setEmpId(EmployeeInfo empId) {
-//		this.empId = empId;
-//	}
-
-	
+	// public EmployeeInfo getEmpId() {
+	// return empId;
+	// }
+	//
+	// /**
+	// * @param empId the empId to set
+	// */
+	// public void setEmpId(EmployeeInfo empId) {
+	// this.empId = empId;
+	// }
 
 }

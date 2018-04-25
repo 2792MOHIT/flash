@@ -1,12 +1,12 @@
 package com.employee.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,7 +22,8 @@ import com.employee.enums.Designation;
 
 @Entity
 @Table(name = "desig_sal")
-public class DesigSal {
+public class DesigSal implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "designation", nullable = false, updatable = true)

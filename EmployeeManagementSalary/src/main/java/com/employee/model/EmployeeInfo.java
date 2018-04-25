@@ -1,5 +1,6 @@
 package com.employee.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,8 @@ import com.employee.enums.Gender;
 
 @Entity
 @Table(name = "employee_info")
-public class EmployeeInfo {
+public class EmployeeInfo implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

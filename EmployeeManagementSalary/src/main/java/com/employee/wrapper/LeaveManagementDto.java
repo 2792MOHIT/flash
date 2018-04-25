@@ -1,60 +1,27 @@
-package com.employee.model;
+package com.employee.wrapper;
 
-import java.io.Serializable;
+import com.employee.model.LeaveManagement;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class LeaveManagementDto {
 
-/**
- * 
- * leave_management entity in database
- * 
- * @author mohit arya
- * @version 1.0
- * 
- */
-
-@Entity
-@Table(name = "leave_management")
-public class LeaveManagement implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "leave_id")
 	private int leaveId;
-
-	@Column(name = "sick_leave")
 	private int sickleave;
-
-	@Column(name = "casual_leave")
 	private int casualLeave;
-
-	@Column(name = "pr_leave")
 	private int priveLeave;
-
-	@Column(name = "civil_leave")
-	private int civil;
-
-	@Column(name = "maternity")
 	private int maternity;
-
-	@Column(name = "paternity")
 	private int paternity;
-
-	@Column(name = "marriage")
 	private int marriage;
-
-	@Column(name = "paid_leave")
 	private int paidLeave;
 
-	public LeaveManagement() {
-
+	public LeaveManagementDto(LeaveManagement leaveManagement) {
+		this.leaveId = leaveManagement.getLeaveId();
+		this.sickleave = leaveManagement.getSickleave();
+		this.casualLeave = leaveManagement.getCasualLeave();
+		this.priveLeave = leaveManagement.getPriveLeave();
+		this.maternity = leaveManagement.getMaternity();
+		this.paternity = leaveManagement.getPaternity();
+		this.marriage = leaveManagement.getMarriage();
+		this.paidLeave = leaveManagement.getPaidLeave();
 	}
 
 	/**
@@ -115,21 +82,6 @@ public class LeaveManagement implements Serializable {
 	 */
 	public void setPriveLeave(int priveLeave) {
 		this.priveLeave = priveLeave;
-	}
-
-	/**
-	 * @return the civil
-	 */
-	public int getCivil() {
-		return civil;
-	}
-
-	/**
-	 * @param civil
-	 *            the civil to set
-	 */
-	public void setCivil(int civil) {
-		this.civil = civil;
 	}
 
 	/**

@@ -3,7 +3,6 @@ package com.employee.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.EmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -87,8 +86,8 @@ public class DatabaseConfig {
 	}
 
 	/**
-	 * Instantiate the persistence handler to be used in whole application. For
-	 * now it is a Hibernate adapter
+	 * Instantiate the persistence handler to be used in whole application. For now
+	 * it is a Hibernate adapter
 	 * 
 	 * @return JpaVendorAdapter the persistence adapter (Hibernate for now)
 	 */
@@ -101,7 +100,7 @@ public class DatabaseConfig {
 
 		return hibernateJpaVendorAdapter;
 	}
-	
+
 	/**
 	 * Instantiate the JPATransaction Manager to implements the transaction
 	 * template.
@@ -112,12 +111,12 @@ public class DatabaseConfig {
 	public PlatformTransactionManager transactionManager() {
 		return new JpaTransactionManager();
 	}
-	
+
 	@Bean
 	public EmbeddedServletContainerCustomizer configure() {
 		return (container -> {
 			container.setPort(propConfig.getServerPort().intValue());
 		});
-		
+
 	}
 }

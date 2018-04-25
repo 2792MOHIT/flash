@@ -1,27 +1,34 @@
 package com.employee.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "salary")
-public class Salary {
-	
+public class Salary implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@Column(name="sid")
+	@Column(name = "sid")
 	private long sid;
-	
+
 	@Column(name = "salary")
-	private long salary;
-	
-	@OneToOne
-	@JoinColumn(name = "emp_id", referencedColumnName="emp_id")
-	private EmployeeInfo empId;
-	
+	private float salary;
+
+	/*
+	 * @OneToOne
+	 * 
+	 * @JoinColumn(name = "emp_id", referencedColumnName="emp_id") private
+	 * EmployeeInfo empId;
+	 */
+
+	@Column(name = "emp_id")
+	private long empId;
+
 	public Salary() {
 	}
 
@@ -33,7 +40,8 @@ public class Salary {
 	}
 
 	/**
-	 * @param sid the sid to set
+	 * @param sid
+	 *            the sid to set
 	 */
 	public void setSid(long sid) {
 		this.sid = sid;
@@ -42,16 +50,31 @@ public class Salary {
 	/**
 	 * @return the salary
 	 */
-	public long getSalary() {
+	public float getSalary() {
 		return salary;
 	}
 
 	/**
-	 * @param salary the salary to set
+	 * @param totalSal
+	 *            the salary to set
 	 */
-	public void setSalary(long salary) {
-		this.salary = salary;
+	public void setSalary(float totalSal) {
+		this.salary = totalSal;
 	}
-	
-	
+
+	/**
+	 * @return the empId
+	 */
+	public long getEmpId() {
+		return empId;
+	}
+
+	/**
+	 * @param empId
+	 *            the empId to set
+	 */
+	public void setEmpId(long empId) {
+		this.empId = empId;
+	}
+
 }
